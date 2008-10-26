@@ -23,7 +23,7 @@
     <!-- delete dir="${basedir}/target/scripts" /-->
     <mkdir dir="${dist.dir}/scripts" />
     <copy todir="${dist.dir}/scripts" overwrite="true">
-      <fileset dir="${source.dir}/scripts" />
+      <fileset dir="${basedir}/src/scripts" />
       <filterset>
         <filter token="CLASSPATH" value="${classpath}:${target.dir}" />
         <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}" />
@@ -31,37 +31,6 @@
     </copy>
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
   </target>
-  
-
-
-  <target name="dist" depends="package">
-    <ivy:publish resolver="push-local" overwrite="true">
-      <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
-    </ivy:publish>
-    <copy file="INSTALL" todir="${dist.dir}" failonerror="false" />
-    <copy file="LICENSE" todir="${dist.dir}" failonerror="false" />
-    <copy file="README" todir="${dist.dir}" failonerror="false" />
-    <copy file="build.xml" todir="${dist.dir}" />
-    <copy todir="${dist.dir}/src">
-      <fileset dir="src" />
-    </copy>
-    <copy todir="${dist.dir}/ivy">
-      <fileset dir="ivy" />
-    </copy>
-    <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip"
-      basedir="${basedir}/dist"
-      includes="${ivy.module}-${ivy.revision}/**"
-      excludes="${ivy.module}-${ivy.revision}/libs/**" />
-  </target>
-
-  <target name="push" depends="package">
-    <ivy:publish resolver="push" overwrite="true">
-      <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
-    </ivy:publish>
-  </target>
-
-
-
 
   <target name="package" depends="test, make-non-executable-jar, make-executable-jar,
     generate-scripts" description="build complete jar(s) and docs">
@@ -73,4 +42,24 @@
   </target>
 
   <target name="jars" depends="package" />
+
+  <target name="dist" depends="package" description="create a source distribution zipfile">
+    <copy todir="${dist.dir}" failonerror="false">
+      <fileset dir="${basedir}" includes="INSTALL* LICENSE* README* build.xml" />
+    </copy>
+    <copy todir="${dist.dir}/src">
+      <fileset dir="src" />
+    </copy>
+    <copy todir="${dist.dir}/ivy">
+      <fileset dir="ivy" />
+    </copy>
+    <copy todir="${dist.dir}/ant">
+      <fileset dir="ant" />
+    </copy>
+    <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}-src.zip"
+      basedir="${basedir}/dist"
+      includes="${ivy.module}-${ivy.revision}/**"
+      excludes="${ivy.module}-${ivy.revision}/libs/** ${ivy.module}-${ivy.revision}/*.jar" />
+  </target>
+
 </project>
