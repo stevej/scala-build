@@ -160,16 +160,6 @@
         </copy>
         <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip" basedir="${basedir}/dist" includes="${ivy.module}-${ivy.revision}/**" />
     </target>
-    
-    <target name="clean" description="erase built files and targets">
-        <delete dir="${target.dir}" />
-        <delete dir="${test.target.dir}" />
-        <delete dir="dist" />
-    </target>
-
-    <target name="clean-ivy">
-        <delete dir="${ivy.jar.dir}"/>
-    </target>
 
     <target name="clean-cache" depends="install-ivy">
         <ivy:cleancache />

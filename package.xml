@@ -1,0 +1,76 @@
+<project xmlns:ivy="antlib:org.apache.ivy.ant">
+
+  <target name="make-non-executable-jar" unless="ivy.extra.jarclassname">
+    <jar destfile="${dist.dir}/${ivy.module}-${ivy.revision}.jar">
+      <fileset dir="${target.dir}/classes" />
+    </jar>
+  </target>
+
+  <!-- generate a jar that contains all deps inside it, so it can be run with "java -jar" -->
+  <target name="make-executable-jar" if="ivy.extra.jarclassname" depends="copy-extra">
+    <jar destfile="${dist.dir}/${ivy.module}-${ivy.revision}.jar">
+      <fileset dir="${target.dir}/classes" />
+      <manifest>
+        <attribute name="Main-Class" value="${ivy.extra.jarclassname}" />
+        <attribute name="Class-Path" value="${deps.path.jar-format}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="generate-scripts" depends="prepare" if="generate.scripts">
+    <pathconvert refid="deps.path" property="classpath" />
+    <pathconvert refid="test.path" property="test.classpath" />
+    <!-- delete dir="${basedir}/target/scripts" /-->
+    <mkdir dir="${dist.dir}/scripts" />
+    <copy todir="${dist.dir}/scripts" overwrite="true">
+      <fileset dir="${source.dir}/scripts" />
+      <filterset>
+        <filter token="CLASSPATH" value="${classpath}:${target.dir}" />
+        <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}" />
+      </filterset>
+    </copy>
+    <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
+  </target>
+  
+
+
+  <target name="dist" depends="package">
+    <ivy:publish resolver="push-local" overwrite="true">
+      <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
+    </ivy:publish>
+    <copy file="INSTALL" todir="${dist.dir}" failonerror="false" />
+    <copy file="LICENSE" todir="${dist.dir}" failonerror="false" />
+    <copy file="README" todir="${dist.dir}" failonerror="false" />
+    <copy file="build.xml" todir="${dist.dir}" />
+    <copy todir="${dist.dir}/src">
+      <fileset dir="src" />
+    </copy>
+    <copy todir="${dist.dir}/ivy">
+      <fileset dir="ivy" />
+    </copy>
+    <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip"
+      basedir="${basedir}/dist"
+      includes="${ivy.module}-${ivy.revision}/**"
+      excludes="${ivy.module}-${ivy.revision}/libs/**" />
+  </target>
+
+  <target name="push" depends="package">
+    <ivy:publish resolver="push" overwrite="true">
+      <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
+    </ivy:publish>
+  </target>
+
+
+
+
+  <target name="package" depends="test, make-non-executable-jar, make-executable-jar,
+    generate-scripts" description="build complete jar(s) and docs">
+    <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${ivy.module}-${ivy.revision}.pom" />
+    <ivy:deliver conf="*(public)" />
+    <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip"
+      basedir="${basedir}/dist"
+      includes="${ivy.module}-${ivy.revision}/${ivy.module}-${ivy.revision}.jar ${ivy.module}-${ivy.revision}/libs/** ${ivy.module}-${ivy.revision}/config/**" />
+  </target>
+
+  <target name="jars" depends="package" />
+</project>
