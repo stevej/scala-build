@@ -53,6 +53,7 @@ Primary targets
     - generate documentation
   - package
     - copy all generated/built files into distribution folder
+      (requires "local" repo)
 
 
 Properties that can change behavior

@@ -45,7 +45,19 @@
 
   <!-- if there's any jni, compile it -->
 
-  <target name="compile-jni" if="build.jni">
+  <target name="check-jni-source" if="build.jni">
+    <!-- tricksy. remove any target files if any non-target files are newer. -->
+    <dependset>
+      <srcfileset dir="src/main/jni" excludes="**/target/*.${os.jni.ext} **/target/*.jar" />
+      <targetfileset dir="src/main/jni" includes="**/target/*.${os.jni.ext} **/target/*.jar" />
+    </dependset>
+    <!-- and then only set build.jni.ok if those targets are "older" than build.xml (ie missing) -->
+    <uptodate property="build.jni.ok" targetfile="src/main/jni/build.xml">
+      <srcfiles dir="src/main/jni" includes="**/target/*.${os.jni.ext} **/target/*.jar" />
+    </uptodate>
+  </target>
+
+  <target name="compile-jni" depends="check-jni-source" if="build.jni.ok">
     <ant dir="src/main/jni" target="compile" inheritAll="false" />
     <copy todir="${dist.dir}" flatten="true">
       <fileset dir="src/main/jni" includes="**/target/*.${os.jni.ext}" />
@@ -144,7 +156,7 @@
   <target name="copy-extra" depends="copy-resources, copy-config, copy-extra-config, copy-extra-libs, copy-extra-dist" />
 
 
-  <target name="compile" depends="prepare, find-source, compile-thrift, compile-jni,
+  <target name="compile" depends="prepare, find-source, compile-thrift, check-jni-source, compile-jni,
     compile-java, compile-scala, write-build-info, copy-extra"
     description="compile java and scala code" />
 
