@@ -25,8 +25,8 @@
     <copy todir="${dist.dir}/scripts" overwrite="true">
       <fileset dir="${basedir}/src/scripts" />
       <filterset>
-        <filter token="CLASSPATH" value="${classpath}:${target.dir}" />
-        <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}" />
+        <filter token="CLASSPATH" value="${classpath}:${target.dir}/classes" />
+        <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}/classes:${target.dir}/test-classes" />
       </filterset>
     </copy>
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
