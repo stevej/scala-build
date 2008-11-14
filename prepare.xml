@@ -29,7 +29,7 @@
       <fileset dir="${source.dir}" includes="jni/build.xml" />
     </pathconvert>
     <pathconvert property="copy.config" setonempty="false">
-      <fileset dir="${basedir}" includes="config/*" />
+      <fileset dir="${basedir}" includes="config/**" />
     </pathconvert>
   </target>
 
