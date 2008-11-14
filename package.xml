@@ -37,8 +37,13 @@
     <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${ivy.module}-${ivy.revision}.pom" />
     <ivy:deliver conf="*(public)" />
     <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip"
-      basedir="${basedir}/dist"
-      includes="${ivy.module}-${ivy.revision}/${ivy.module}-${ivy.revision}.jar ${ivy.module}-${ivy.revision}/libs/** ${ivy.module}-${ivy.revision}/config/**" />
+      basedir="${basedir}/dist">
+      <include name="${ivy.module}-${ivy.revision}/${ivy.module}-${ivy.revision}.jar" />
+      <include name="${ivy.module}-${ivy.revision}/*.so" />
+      <include name="${ivy.module}-${ivy.revision}/*.jnilib" />
+      <include name="${ivy.module}-${ivy.revision}/libs/**" />
+      <include name="${ivy.module}-${ivy.revision}/config/**" />
+    </zip>
   </target>
 
   <target name="jars" depends="package" />
