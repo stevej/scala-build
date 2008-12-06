@@ -17,6 +17,8 @@
         skipemptyfilesets="true" verbose="true">
         <arg value="--gen" />
         <arg value="java" />
+        <arg value="--gen" />
+        <arg value="rb" />
         <arg value="-o" />
         <arg value="${target.dir}" />
         <arg value="" />
@@ -114,13 +116,6 @@
     <copy todir="${dist.dir}/libs" flatten="true">
       <path refid="deps.path" />
     </copy>
-    <pathconvert refid="deps.path" pathsep=" " property="deps.path.jar-format">
-      <chainedmapper>
-        <flattenmapper />
-        <globmapper from="*" to="libs/*" />
-      </chainedmapper>
-    </pathconvert>
-
     <copy todir="${target.dir}/test-classes/resources" failonerror="false">
       <fileset dir="${test.source.dir}/resources" />
     </copy>

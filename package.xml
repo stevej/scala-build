@@ -8,6 +8,12 @@
 
   <!-- generate a jar that contains all deps inside it, so it can be run with "java -jar" -->
   <target name="make-executable-jar" if="ivy.extra.jarclassname" depends="copy-extra">
+    <pathconvert refid="deps.path" pathsep=" " property="deps.path.jar-format">
+      <chainedmapper>
+        <flattenmapper />
+        <globmapper from="*" to="libs/*" />
+      </chainedmapper>
+    </pathconvert>
     <jar destfile="${dist.dir}/${ivy.module}-${ivy.revision}.jar">
       <fileset dir="${target.dir}/classes" />
       <manifest>
@@ -20,6 +26,13 @@
   <target name="generate-scripts" depends="prepare" if="generate.scripts">
     <pathconvert refid="deps.path" property="classpath" />
     <pathconvert refid="test.path" property="test.classpath" />
+    <pathconvert refid="deps.path" property="deps.path.dist-format">
+      <chainedmapper>
+        <flattenmapper />
+        <globmapper from="*" to="$${DIST_HOME}/libs/*" />
+      </chainedmapper>
+    </pathconvert>
+
     <!-- delete dir="${basedir}/target/scripts" /-->
     <mkdir dir="${dist.dir}/scripts" />
     <copy todir="${dist.dir}/scripts" overwrite="true">
@@ -27,6 +40,8 @@
       <filterset>
         <filter token="CLASSPATH" value="${classpath}:${target.dir}/classes" />
         <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}/classes:${target.dir}/test-classes" />
+        <filter token="DIST_CLASSPATH" value="${deps.path.dist-format}:$${DIST_HOME}/${ivy.module}-${ivy.revision}.jar" />
+        <filter token="TARGET" value="${target.dir}" />
       </filterset>
     </copy>
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
