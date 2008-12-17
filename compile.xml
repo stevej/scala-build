@@ -94,7 +94,25 @@
 
   <!-- create properties file with build info -->
 
-  <target name="write-build-info" depends="init" if="ivy.extra.buildpackage">
+  <target name="find-git-revision" unless="no.git">
+    <!-- ask git for the current "head" commit-id, for memoizing inside the built jar -->
+    <exec outputproperty="revision" executable="git-rev-parse" failifexecutionfails="false">
+      <arg value="head" />
+    </exec>
+    <exec executable="git-rev-parse" failifexecutionfails="false">
+      <arg value="head" />
+      <redirector outputproperty="revision-short">
+        <outputfilterchain>
+          <tokenfilter>
+            <filetokenizer />
+            <replaceregex pattern="(.{8}).*" replace="\1"/>
+          </tokenfilter>
+        </outputfilterchain>
+      </redirector>
+    </exec>
+  </target>
+
+  <target name="write-build-info" depends="init, find-git-revision" if="ivy.extra.buildpackage">
     <tstamp>
       <format property="build.timestamp" pattern="yyyyMMdd-HHmmss" />
     </tstamp>
@@ -106,6 +124,7 @@
       <entry key="name" value="${ivy.module}" />
       <entry key="version" value="${ivy.revision}" />
       <entry key="build_name" value="${build.timestamp}" />
+      <entry key="build_revision" value="${revision}" />
     </propertyfile>
   </target>
 

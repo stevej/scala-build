@@ -1,7 +1,7 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant">
 
   <target name="make-non-executable-jar" unless="ivy.extra.jarclassname">
-    <jar destfile="${dist.dir}/${ivy.module}-${ivy.revision}.jar">
+    <jar destfile="${dist.dir}/${jar.name}.jar">
       <fileset dir="${target.dir}/classes" />
     </jar>
   </target>
@@ -14,7 +14,7 @@
         <globmapper from="*" to="libs/*" />
       </chainedmapper>
     </pathconvert>
-    <jar destfile="${dist.dir}/${ivy.module}-${ivy.revision}.jar">
+    <jar destfile="${dist.dir}/${jar.name}.jar">
       <fileset dir="${target.dir}/classes" />
       <manifest>
         <attribute name="Main-Class" value="${ivy.extra.jarclassname}" />
@@ -40,7 +40,7 @@
       <filterset>
         <filter token="CLASSPATH" value="${classpath}:${target.dir}/classes" />
         <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}/classes:${target.dir}/test-classes" />
-        <filter token="DIST_CLASSPATH" value="${deps.path.dist-format}:$${DIST_HOME}/${ivy.module}-${ivy.revision}.jar" />
+        <filter token="DIST_CLASSPATH" value="${deps.path.dist-format}:$${DIST_HOME}/${jar.name}.jar" />
         <filter token="TARGET" value="${target.dir}" />
       </filterset>
     </copy>
@@ -49,15 +49,20 @@
 
   <target name="package" depends="test, make-non-executable-jar, make-executable-jar,
     generate-scripts" description="build complete jar(s) and docs">
-    <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${ivy.module}-${ivy.revision}.pom" />
+    <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${dist.name}.pom" />
     <ivy:deliver conf="*(public)" />
-    <zip destfile="${basedir}/dist/${ivy.module}-${ivy.revision}.zip"
+    <condition property="dist.zip.name" value="namesearch-${revision-short}.zip">
+      <isset property="dist_use_build_number" />
+    </condition>
+    <property name="dist.zip.name" value="${dist.name}.zip" />
+    <zip destfile="${basedir}/dist/${dist.zip.name}"
       basedir="${basedir}/dist">
-      <include name="${ivy.module}-${ivy.revision}/${ivy.module}-${ivy.revision}.jar" />
-      <include name="${ivy.module}-${ivy.revision}/*.so" />
-      <include name="${ivy.module}-${ivy.revision}/*.jnilib" />
-      <include name="${ivy.module}-${ivy.revision}/libs/**" />
-      <include name="${ivy.module}-${ivy.revision}/config/**" />
+      <include name="${dist.name}/${jar.name}.jar" />
+      <include name="${dist.name}/*.so" />
+      <include name="${dist.name}/*.jnilib" />
+      <include name="${dist.name}/libs/**" />
+      <include name="${dist.name}/config/**" />
+      <include name="${dist.name}/scripts/**" />
     </zip>
     <ivy:publish resolver="local" overwrite="true">
       <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
