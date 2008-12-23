@@ -42,6 +42,7 @@
         <filter token="TEST_CLASSPATH" value="${test.classpath}:${target.dir}/classes:${target.dir}/test-classes" />
         <filter token="DIST_CLASSPATH" value="${deps.path.dist-format}:$${DIST_HOME}/${jar.name}.jar" />
         <filter token="TARGET" value="${target.dir}" />
+        <filter token="DIST_NAME" value="${dist.name}" />
       </filterset>
     </copy>
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />

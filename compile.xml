@@ -135,13 +135,10 @@
     <copy todir="${dist.dir}/libs" flatten="true">
       <path refid="deps.path" />
     </copy>
-    <copy todir="${target.dir}/test-classes/resources" failonerror="false">
+    <copy todir="${target.dir}/test-classes/" failonerror="false">
       <fileset dir="${test.source.dir}/resources" />
     </copy>
-    <copy todir="${target.dir}/classes/resources" overwrite="true" failonerror="false">
-      <fileset dir="${source.dir}/resources" />
-    </copy>
-    <copy todir="${dist.dir}/resources" overwrite="true" failonerror="false">
+    <copy todir="${target.dir}/classes/" overwrite="true" failonerror="false">
       <fileset dir="${source.dir}/resources" />
     </copy>
   </target>
