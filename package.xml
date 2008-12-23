@@ -1,13 +1,25 @@
 <project xmlns:ivy="antlib:org.apache.ivy.ant">
 
-  <target name="make-non-executable-jar" unless="ivy.extra.jarclassname">
+  <!-- unzip all the dependent jars into target/ so that the final jar will depend on nothing. kinda evil. -->
+  <target name="pack-deps" if="pack.deps">
+    <pathconvert pathsep="," property="deps.path.list">
+      <path refid="deps.path" />
+      <map from="/" to="" />
+    </pathconvert>
+    <unzip dest="${target.dir}/classes">
+      <fileset dir="/" includes="${deps.path.list}" />
+    </unzip>
+    <delete dir="${target.dir}/classes/META-INF" />
+  </target>
+
+  <target name="make-non-executable-jar" unless="ivy.extra.jarclassname" depends="pack-deps">
     <jar destfile="${dist.dir}/${jar.name}.jar">
       <fileset dir="${target.dir}/classes" />
     </jar>
   </target>
 
   <!-- generate a jar that contains all deps inside it, so it can be run with "java -jar" -->
-  <target name="make-executable-jar" if="ivy.extra.jarclassname" depends="copy-extra">
+  <target name="make-executable-jar" if="ivy.extra.jarclassname" depends="copy-extra,pack-deps">
     <pathconvert refid="deps.path" pathsep=" " property="deps.path.jar-format">
       <chainedmapper>
         <flattenmapper />
