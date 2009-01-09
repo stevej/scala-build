@@ -61,12 +61,14 @@
 
   <target name="compile-jni" depends="check-jni-source" if="build.jni.ok">
     <ant dir="src/main/jni" target="compile" inheritAll="false" />
+  </target>
+
+  <target name="install-jni" depends="compile-jni" if="build.jni">
     <copy todir="${dist.dir}" flatten="true">
       <fileset dir="src/main/jni" includes="**/target/*.${os.jni.ext}" />
       <fileset dir="src/main/jni" includes="**/target/*.jar" />
     </copy>
   </target>
-
 
   <!-- compile old-skool java -->
 
@@ -171,7 +173,7 @@
 
 
   <target name="compile" depends="prepare, find-source, compile-thrift, check-jni-source, compile-jni,
-    compile-java, compile-scala, write-build-info, copy-extra"
+    install-jni, compile-java, compile-scala, write-build-info, copy-extra"
     description="compile java and scala code" />
 
 </project>
