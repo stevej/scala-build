@@ -13,7 +13,8 @@
         <unpackagemapper from="${basedir}/*" to="${thrift.target.dir}/*" />
       </pathconvert>
       <mkdir dir="${thrift.target.dir}" />
-      <apply executable="thrift" dest="${thrift.gen.path}" failonerror="true"
+      <property name="thrift.bin" value="thrift" />
+      <apply executable="${thrift.bin}" dest="${thrift.gen.path}" failonerror="true"
         skipemptyfilesets="true" verbose="true">
         <arg value="--gen" />
         <arg value="java" />
