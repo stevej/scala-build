@@ -73,6 +73,8 @@ Properties that can change behavior
     any extra files to copy into config/ during compile
 - pack.deps
     pack dependent jars into the final dist jar, to remove dependencies
+- thrift.bin
+    location of the "thrift" executable
 
 
 Extra ivy thingies
