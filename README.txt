@@ -54,6 +54,9 @@ Primary targets
   - package
     - copy all generated/built files into distribution folder
       (requires "local" repo)
+  - push
+    - copy all generated/built files into a final repository
+      (requires "push" repo)
 
 
 Properties that can change behavior
@@ -75,6 +78,10 @@ Properties that can change behavior
     pack dependent jars into the final dist jar, to remove dependencies
 - thrift.bin
     location of the "thrift" executable
+- push.build_name
+    add the build name (and git revision) to jars when pushed to the repo
+- no.git
+    don't try to fetch the current git head revision
 
 
 Extra ivy thingies
