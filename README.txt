@@ -1,5 +1,6 @@
 
 Folder layout:
+  ant/  -- boilerplate ant files
   src/  -- source code
     main/
       scala/
@@ -15,6 +16,10 @@ Folder layout:
     ivy.xml  -- package description
     ivysettings.xml  -- repositories
   config/  -- items to package in the distribution but not in jars
+
+To configure, search through build.xml and ivy/ivy.xml for the 
+string CONFIG and modify accordingly. The Ivy settings are also
+documented below.
 
 Created during the build:
   target/  -- compiled files
