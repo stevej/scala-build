@@ -1,5 +1,6 @@
 
 Folder layout:
+  ant/  -- boilerplate ant files
   src/  -- source code
     main/
       scala/
@@ -15,6 +16,10 @@ Folder layout:
     ivy.xml  -- package description
     ivysettings.xml  -- repositories
   config/  -- items to package in the distribution but not in jars
+
+To configure, search through build.xml and ivy/ivy.xml for the 
+string CONFIG and modify accordingly. The Ivy settings are also
+documented below.
 
 Created during the build:
   target/  -- compiled files
@@ -54,6 +59,9 @@ Primary targets
   - package
     - copy all generated/built files into distribution folder
       (requires "local" repo)
+  - push
+    - copy all generated/built files into a final repository
+      (requires "push" repo)
 
 
 Properties that can change behavior
@@ -73,6 +81,12 @@ Properties that can change behavior
     any extra files to copy into config/ during compile
 - pack.deps
     pack dependent jars into the final dist jar, to remove dependencies
+- thrift.bin
+    location of the "thrift" executable
+- push.build_name
+    add the build name (and git revision) to jars when pushed to the repo
+- no.git
+    don't try to fetch the current git head revision
 
 
 Extra ivy thingies
