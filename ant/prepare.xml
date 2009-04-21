@@ -29,6 +29,9 @@
     <pathconvert property="build.scala" setonempty="false">
       <fileset dir="${source.dir}" includes="scala/**/*.scala" />
     </pathconvert>
+    <pathconvert property="build.thrift" setonempty="false">
+      <fileset dir="${source.dir}" includes="thrift/**/*.thrift" />
+    </pathconvert>
     <pathconvert property="build.jni" setonempty="false">
       <fileset dir="${source.dir}" includes="jni/build.xml" />
     </pathconvert>

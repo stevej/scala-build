@@ -40,7 +40,7 @@
     </sequential>
   </macrodef>
 
-  <target name="compile-thrift" if="ivy.extra.thriftpackage">
+  <target name="compile-thrift" if="build.thrift">
     <generate-thrift />
     <compile-generated-thrift />
   </target>
@@ -103,7 +103,7 @@
       <arg value="head" />
     </exec>
     <exec executable="git-rev-parse" failifexecutionfails="false">
-      <arg value="head" />
+      <arg value="HEAD" />
       <redirector outputproperty="revision-short">
         <outputfilterchain>
           <tokenfilter>
