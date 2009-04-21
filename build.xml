@@ -7,13 +7,13 @@
   <property name="dist.name" value="example" />
   <property name="dist_use_build_number" value="true" />
 
+  <property name="ivy.settings.file" value="${basedir}/ivy/ivysettings.xml" />
+  <import file="${basedir}/ant/bootstrap.xml" />
+
   <!-- Where you would keep some common local code -->
   <property name="commons.dir" location="${basedir}/../commons" />
-  <property name="ivy.settings.file" value="${basedir}/ivy/ivysettings.xml" />
-  <import file="${commons.dir}/ant/bootstrap.xml" />
-
-  <property name="libs.extra" value="true" />
   <property name="config.extra" location="${commons.dir}/config" />
+  <property name="libs.extra" value="true" />
 
   <property name="install.dir" location="/opt/local/example" />
   <target name="install" depends="package">
