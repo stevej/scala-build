@@ -20,7 +20,7 @@
           <pathelement location="${target.dir}/test-classes" />
         </classpath>
         <syspropertyset>
-          <propertyref builtin="commandline" />
+          <propertyref builtin="all" />
         </syspropertyset>
         <jvmarg value="-Ddist.dir=${dist.dir}" />
         <jvmarg value="-Djava.library.path=${dist.dir}:${dist.dir}/libs" />
