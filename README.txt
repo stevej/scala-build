@@ -38,8 +38,6 @@ Created during the build:
       resources/  -- from src/main/resources/
 
 
-... tbd ...
-
 Primary targets
 ---------------
   - clean
@@ -68,11 +66,11 @@ Properties that can change behavior
 -----------------------------------
 
 - skip.download
-    don't download ivy; assume it's present
+    if defined, don't download ivy; assume it's present
 - skip.test
-    don't run test suite
+    if defined, don't run test suite
 - skip.docs
-    don't build docs
+    if defined, don't build docs
 - libs.extra
     any extra files to copy into dist/<p>/libs/ during compile
 - dist.extra
@@ -80,13 +78,15 @@ Properties that can change behavior
 - config.extra
     any extra files to copy into config/ during compile
 - pack.deps
-    pack dependent jars into the final dist jar, to remove dependencies
+    if defined, pack dependent jars into the final dist jar, to remove dependencies
 - thrift.bin
     location of the "thrift" executable
 - push.build_name
-    add the build name (and git revision) to jars when pushed to the repo
+    if defined, add the build name (and git revision) to jars when pushed to the repo
+- dist.build_name
+    if defined, add the git revision to the name of the final distribution zip file
 - no.git
-    don't try to fetch the current git head revision
+    if defined, don't try to fetch the current git head revision
 
 
 Extra ivy thingies
