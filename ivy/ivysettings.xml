@@ -16,11 +16,13 @@
       <ibiblio name="scala-tools.org-snapshots" m2compatible="true" root="http://scala-tools.org/repo-snapshots/" changingPattern=".*-SNAPSHOT" />
       <!-- for smack, smackx -->
       <ibiblio name="reucon" m2compatible="true" root="http://maven.reucon.com/public/" />
-      <!-- can't use poms because commons-io pom is corrupted -->
-      <ibiblio name="maven2" m2compatible="true" usepoms="false" />
+      <ibiblio name="maven2" m2compatible="true" />
       <ibiblio name="lag.net" m2compatible="true" root="http://www.lag.net/repo/" />
       <!-- for oauth -->
       <ibiblio name="oauth.net" m2compatible="true" root="http://oauth.googlecode.com/svn/code/maven" />
+      <ibiblio name="powermock" m2compatible="true" root="http://powermock.googlecode.com/svn/repo/" />
+      <ibiblio name="jboss" m2compatible="true" root="http://repository.jboss.org/maven2/" />
+
     </chain>
   </resolvers>
 
