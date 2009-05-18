@@ -50,6 +50,11 @@ cat build.xml | \
       > build2.xml && \
   mv build2.xml build.xml
 
+cat src/scripts/startup.sh | \
+  sed -e "s/example/${project_name}/" \
+  > src/scripts/${project_name}.sh && \
+  rm src/scripts/startup.sh
+
 mkdir -p src/main/scala/${package_path}/${project_name}
 mkdir -p src/test/scala/${package_path}/${project_name}
 test $use_thrift = "n" || {
