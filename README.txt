@@ -83,8 +83,9 @@ Properties that can change behavior
     location of the "thrift" executable
 - push.build_name
     if defined, add the build name (and git revision) to jars when pushed to the repo
-- dist.build_name
-    if defined, add the git revision to the name of the final distribution zip file
+- dist.build_integration
+    if defined, add the git revision to the name of the final distribution zip file, and
+    don't use the version number in paths
 - no.git
     if defined, don't try to fetch the current git head revision
 
@@ -102,6 +103,8 @@ Extra ivy thingies
     class to execute for unit tests -- required, in order to run tests
 - e:stresstestclass
     class to execute for stress tests (optional)
+- e:checktestclass
+    class to execute for scalacheck tests (optional)
 - e:jarclassname
     creates an executable jar with this as the main class name
 

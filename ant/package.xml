@@ -65,9 +65,9 @@
     <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${dist.name}.pom" />
     <ivy:deliver conf="*(public)" />
     <condition property="dist.zip.name"
-               value="${dist.name}-${revision-short}.zip"
+               value="${ivy.module}-${revision-short}.zip"
                else="${dist.name}.zip">
-      <isset property="dist.build_name" />
+      <isset property="dist.build_integration" />
     </condition>
     <zip destfile="${basedir}/dist/${dist.zip.name}"
          basedir="${basedir}/dist">
