@@ -57,6 +57,9 @@
         <filter token="DIST_NAME" value="${dist.name}" />
       </filterset>
     </copy>
+    <copy todir="${dist.dir}/scripts" overwrite="true" failonerror="false">
+      <fileset dir="${target.dir}/gen-rb" />
+    </copy>
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
   </target>
 
@@ -80,7 +83,9 @@
       <include name="${dist.name}/*.jnilib" />
       <include name="${dist.name}/libs/**" />
       <include name="${dist.name}/config/**" />
-      <include name="${dist.name}/scripts/**" />
+      <tarfileset dir="${basedir}/dist" mode="755">
+        <include name="${dist.name}/scripts/**" />
+      </tarfileset>
     </tar>
     <ivy:publish resolver="local" overwrite="true">
       <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
