@@ -86,8 +86,6 @@ Properties that can change behavior
 - dist.build_integration
     if defined, add the git revision to the name of the final distribution zip file, and
     don't use the version number in paths
-- no.git
-    if defined, don't try to fetch the current git head revision
 
 
 Extra ivy thingies
