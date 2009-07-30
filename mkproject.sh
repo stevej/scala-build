@@ -22,12 +22,14 @@ read -p "  description for humans: " -e description
 echo "  ----------"
 read -p "  using thrift? [n]: " -e use_thrift
 read -p "  using jmock? [n]: " -e use_jmock
+read -p "  need init.d script? [n]: " -e use_initd
 
 test "x$package_root" = "x" && package_root="com.example"
 test "x$project_name" = "x" && project_name="echod"
 test "x$description" = "x" && description="sample project"
 test "x$use_thrift" = "x" && use_thrift="n"
 test "x$use_jmock" = "x" && use_jmock="n"
+test "x$use_initd" = "x" && use_initd="n"
 package_path=$(echo ${package_root} | sed -e 's/\./\//g')
 
 echo
@@ -50,10 +52,14 @@ cat build.xml | \
       > build2.xml && \
   mv build2.xml build.xml
 
-cat src/scripts/startup.sh | \
-  sed -e "s/example/${project_name}/" \
-  > src/scripts/${project_name}.sh && \
+if test $use_initd = "n"; then
   rm src/scripts/startup.sh
+else
+  cat src/scripts/startup.sh | \
+    sed -e "s/example/${project_name}/" \
+    > src/scripts/${project_name}.sh && \
+    rm src/scripts/startup.sh
+fi
 
 mkdir -p src/main/scala/${package_path}/${project_name}
 mkdir -p src/test/scala/${package_path}/${project_name}
