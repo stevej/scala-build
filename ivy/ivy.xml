@@ -19,15 +19,14 @@
     <conf name="test" visibility="private" description="build and run tests" />
   </configurations>
   <dependencies>
-    <!-- want scala-compiler for running the console -->
-    <dependency org="org.scala-lang" name="scala-compiler" rev="2.7.3" />
-    <dependency org="org.scala-lang" name="scala-library" rev="2.7.3" />
+    <dependency org="org.scala-lang" name="scala-compiler" rev="2.7.5" />
+    <dependency org="org.scala-lang" name="scala-library" rev="2.7.5" />
+    <dependency org="org.scala-tools.testing" name="specs" rev="1.4.4" conf="test->*" />
+    <dependency org="junit" name="junit" rev="4.5" conf="test->*" />
     <dependency org="org.scala-tools" name="vscaladoc" rev="1.1-md-3" conf="bootstrap->*" />
 
+    <dependency org="net.lag" name="configgy" rev="1.3" />
     <dependency org="commons-logging" name="commons-logging" rev="1.1" />
     <dependency org="commons-lang" name="commons-lang" rev="2.2" />
-    <dependency org="org.scala-tools.testing" name="specs" rev="1.4.4" />
-    <dependency org="net.lag" name="configgy" rev="1.3" />
-    <dependency org="junit" name="junit" rev="4.4" /> <!--auto-->
   </dependencies>
 </ivy-module>

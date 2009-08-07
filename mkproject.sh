@@ -59,7 +59,7 @@ mkdir -p src/main/scala/${package_path}/${project_name}
 mkdir -p src/test/scala/${package_path}/${project_name}
 test $use_thrift = "n" || {
   mkdir -p src/test/thrift
-  inject_dep thrift libthrift 20080411p1
+  inject_dep thrift libthrift 751142
 }
 
 # temporarily needed due to bug in specs:
