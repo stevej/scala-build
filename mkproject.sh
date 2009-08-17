@@ -3,9 +3,10 @@ inject_dep() {
   org=$1
   name=$2
   rev=$3
+  conf=$4
 
   cat ivy/ivy.xml | \
-    awk "/  <\/dependencies>/ { print \"    <dependency org=\\\"${org}\\\" name=\\\"${name}\\\" rev=\\\"${rev}\\\" /> <!--auto-->\" } { print }" \
+    awk "/  <\/dependencies>/ { print \"    <dependency org=\\\"${org}\\\" name=\\\"${name}\\\" rev=\\\"${rev}\\\" conf=\\\"${conf}\\\" /> <!--auto-->\" } { print }" \
         > ivy/ivy2.xml && \
     mv ivy/ivy2.xml ivy/ivy.xml
 }
@@ -65,18 +66,18 @@ mkdir -p src/main/scala/${package_path}/${project_name}
 mkdir -p src/test/scala/${package_path}/${project_name}
 test $use_thrift = "n" || {
   mkdir -p src/test/thrift
-  inject_dep thrift libthrift 20080411p1
+  inject_dep thrift libthrift 751142 "*"
 }
 
 # temporarily needed due to bug in specs:
-inject_dep junit junit 4.4
+inject_dep junit junit 4.5 "test->*"
 
 test $use_jmock = "n" || {
-  inject_dep org.jmock jmock 2.4.0
-  inject_dep org.hamcrest hamcrest-all 1.1
-  inject_dep cglib cglib 2.1_3
-  inject_dep asm asm 1.5.3
-  inject_dep objenesis objenesis 1.1
+  inject_dep org.jmock jmock 2.4.0 "test->*"
+  inject_dep org.hamcrest hamcrest-all 1.1 "test->*"
+  inject_dep cglib cglib 2.1_3 "test->*"
+  inject_dep asm asm 1.5.3 "test->*"
+  inject_dep org.objenesis objenesis 1.1 "test->*"
 }
 
 cat >src/main/scala/${package_path}/${project_name}/Main.scala <<__EOF__
