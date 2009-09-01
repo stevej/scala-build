@@ -67,12 +67,12 @@
     generate-scripts, docs" description="build complete jar(s) and docs">
     <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${dist.name}.pom">
       <mapping conf="*" scope="runtime" />
-      <mapping conf="bootstrap" scope="compile" />
-      <mapping conf="test" scope="compile" />
+      <mapping conf="bootstrap" scope="provided" />
+      <mapping conf="test" scope="provided" />
     </ivy:makepom>
     <ivy:deliver conf="*(public)" />
     <condition property="dist.tarball.name"
-               value="${ivy.module}-${revision-short}.tar.bz2"
+               value="${dist.name}-${revision-short}.tar.bz2"
                else="${dist.name}.tar.bz2">
       <isset property="dist.build_integration" />
     </condition>
