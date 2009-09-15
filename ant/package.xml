@@ -63,14 +63,17 @@
     <chmod dir="${dist.dir}/scripts" includes="*" perm="ugo+x" />
   </target>
 
-  <target name="package" depends="test, make-non-executable-jar, make-executable-jar,
-    generate-scripts, docs" description="build complete jar(s) and docs">
+  <target name="jars" depends="test, make-non-executable-jar, make-executable-jar, generate-scripts"
+    description="build jar(s)">
     <ivy:makepom ivyfile="${basedir}/ivy/ivy.xml" pomfile="${dist.dir}/${dist.name}.pom">
       <mapping conf="*" scope="runtime" />
       <mapping conf="bootstrap" scope="provided" />
       <mapping conf="test" scope="provided" />
     </ivy:makepom>
     <ivy:deliver conf="*(public)" />
+  </target>
+
+  <target name="package" depends="jars, docs" description="build jar(s) and docs, and package into a tarball">
     <condition property="dist.tarball.name"
                value="${dist.name}-${revision-short}.tar.bz2"
                else="${dist.name}.tar.bz2">
@@ -91,8 +94,6 @@
       <artifacts pattern="${dist.dir}/[artifact]-[revision].[ext]" />
     </ivy:publish>
   </target>
-
-  <target name="jars" depends="package" />
 
   <target name="dist" depends="package" description="create a source distribution zipfile">
     <copy todir="${dist.dir}" failonerror="false">
