@@ -16,7 +16,7 @@ HEAP_OPTS="-Xmx13000m -Xms13000m -XX:NewSize=1024m"
 JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
 JAVA_OPTS="-server -verbosegc -XX:+PrintGCDetails -XX:+UseConcMarkSweepGC -XX:+UseParNewGC $HEAP_OPTS $JMX_OPTS"
 
-pidfile="/var/run/$APP_NAME.pid"
+pidfile="/var/run/$APP_NAME/$APP_NAME.pid"
 daemon_args="--name $APP_NAME --pidfile $pidfile"
 daemon_start_args="--user $AS_USER --stdout=/var/log/$APP_NAME/stdout --stderr=/var/log/$APP_NAME/error"
 
@@ -28,15 +28,13 @@ function find_java() {
   if [ ! -z "$JAVA_HOME" ]; then
     return
   fi
-  potential=$(ls -r1d /opt/jdk /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home /usr/java/default /usr/java/j* 2>/dev/null)
-  for p in $potential; do
-    if [ -x $p/bin/java ]; then
-      JAVA_HOME=$p
+  for dir in /opt/jdk /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home /usr/java/default; do
+    if [ -x $dir/bin/java ]; then
+      JAVA_HOME=$dir
       break
     fi
   done
 }
-
 
 # dirs under /var/run can go away between reboots.
 for p in /var/run/$APP_NAME /var/log/$APP_NAME; do
