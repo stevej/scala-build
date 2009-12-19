@@ -69,9 +69,6 @@ test $use_thrift = "n" || {
   inject_dep thrift libthrift 751142 "*"
 }
 
-# temporarily needed due to bug in specs:
-inject_dep junit junit 4.5 "test->*"
-
 test $use_jmock = "n" || {
   inject_dep org.jmock jmock 2.4.0 "test->*"
   inject_dep org.hamcrest hamcrest-all 1.1 "test->*"
