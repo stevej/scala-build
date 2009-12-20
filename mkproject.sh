@@ -50,6 +50,7 @@ cat ivy/ivy.xml | \
 cat build.xml | \
   sed -e "s/<project name=\".*\" default/<project name=\"${project_name}\" default/" \
       -e "s/<description>.*<\/description>/<description>${description}<\/description>/" \
+      -e "s/usr\/local\/example/usr\/local\/${project_name}/" \
       > build2.xml && \
   mv build2.xml build.xml
 
@@ -112,7 +113,14 @@ object SampleSpec extends Specification with JMocker with ClassMocker {
 }
 __EOF__
 
-mv .git .git-scala-build
+mv .git .git-scala-build 2>/dev/null || echo
+mkdir -p libs
+
+cat >.gitignore << __EOF__
+.git*
+target
+dist
+__EOF__
 
 echo "Done."
 echo
