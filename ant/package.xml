@@ -74,6 +74,8 @@
   </target>
 
   <target name="package" depends="jars, docs" description="build jar(s) and docs, and package into a tarball">
+    <!-- set revision-short if nothing else has. -->
+    <property name="revision-short" value="HEAD" />
     <condition property="dist.tarball.name"
                value="${dist.name}-${revision-short}.tar.bz2"
                else="${dist.name}.tar.bz2">
