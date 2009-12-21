@@ -98,7 +98,7 @@ import com.twitter.xrayspecs.XraySpecsRunner
 object TestRunner extends XraySpecsRunner
 __EOF__
 
-cat >src/test/scala/${package_path}/${project_tame}/SampleSpec.scala << __EOF__
+cat >src/test/scala/${package_path}/${project_name}/SampleSpec.scala << __EOF__
 package ${package_root}.${project_name}
 
 import org.specs.Specification
