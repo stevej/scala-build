@@ -23,7 +23,7 @@ read -p "  description for humans: " -e description
 echo "  ----------"
 read -p "  using thrift? [n]: " -e use_thrift
 read -p "  using jmock? [y]: " -e use_jmock
-read -p "  need init.d script? [n]: " -e use_initd
+read -p "  building a server (start/stop script & admin port)? [n]: " -e use_initd
 
 test "x$package_root" = "x" && package_root="com.example"
 test "x$project_name" = "x" && project_name="echod"
@@ -61,6 +61,7 @@ else
     sed -e "s/example/${project_name}/" \
     > src/scripts/${project_name}.sh && \
     rm src/scripts/startup.sh
+  inject_dep com.twitter ostrich 1.0 "*"
 fi
 
 mkdir -p src/main/scala/${package_path}/${project_name}
@@ -78,7 +79,7 @@ test $use_jmock = "n" || {
   inject_dep org.objenesis objenesis 1.1 "test->*"
 }
 
-inject_dep com.twitter xrayspecs 1.0.7 "test->*"
+inject_dep com.twitter xrayspecs 1.0.7 "*"
 
 cat >src/main/scala/${package_path}/${project_name}/Main.scala <<__EOF__
 package ${package_root}.${project_name}
@@ -124,5 +125,3 @@ __EOF__
 
 echo "Done."
 echo
-
-# <!--dependency org="org.mockito" name="mockito-core" rev="1.7" conf="test->*"/-->
