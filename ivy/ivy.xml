@@ -1,9 +1,4 @@
 <ivy-module version="1.0" xmlns:e="http://ant.apache.org/ivy/extra">
-  <!-- CONFIG: net.lag.example is the example project we're going to setup" -->
-  <!-- CONFIG: testclass is your test runner -->
-  <!-- CONFIG: jarclassname is the name of your main class to run via java -jar -->
-  <!-- CONFIG: thriftpackage is where generated thrift classes go. 
-               Only matters if you're using thrift. -->
   <info organisation="com.example"
     module="echod"
     revision="1.0"
