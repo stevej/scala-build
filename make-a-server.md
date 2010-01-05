@@ -1,7 +1,9 @@
 
 = Make Your Own Server
 
-FIXME blabla get scala-build
+Let's make a new server!
+
+    $ git clone git://github.com/robey/scala-build.git
 
 
 == Folder layout
@@ -53,17 +55,11 @@ You can run the server locally by using the executable jar:
 
     $ java -jar ./dist/mynewproject/mynewproject-1.0.jar
 
-The name and version number of the jar come from `build.xml` (the ant build file).
+The name and version number of the jar come from `ivy/ivy.xml` (the ivy definitions file).
 
 
 == Deploy
 
-The deployed tarball can be named after the version # (1.0) or the current git revision (8 hex
-chars). Since we don't use version numbers often, the git revision is the default.
-
-FIXME copy this from the wiki.
-
-
- 
-- scala-build
-- ostrich
+The deployed tarball can be named after the version number (1.0) or the current git revision (8 hex
+chars). Since we don't use version numbers often, the git revision is the default. Modify
+`dist.build_integration` in `build.xml` if you would rather use the version number.
